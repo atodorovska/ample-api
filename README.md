@@ -1,1 +1,1 @@
-Platform for sharing and renting of clothing - api.
+Platform for sharing and renting of clothing.
