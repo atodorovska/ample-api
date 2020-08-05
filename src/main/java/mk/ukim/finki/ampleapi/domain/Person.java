@@ -9,14 +9,19 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Integer points;
+
     private String address;
 
     public Person() {
     }
 
-    public Person(Long id, Integer points, String address) {
-        this.id = id;
+    public Person(Integer points) {
+        this.points = points;
+    }
+
+    public Person(Integer points, String address) {
         this.points = points;
         this.address = address;
     }

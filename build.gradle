@@ -15,6 +15,24 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-oauth2-client'
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.3.RELEASE'
+	implementation 'com.google.code.gson:gson:2.7'
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'org.hibernate:hibernate-validator:6.1.0.Final'
+	implementation("org.springframework:spring-webflux")
+	implementation("io.projectreactor.netty:reactor-netty:0.9.7.RELEASE")
+
+	//remove later
+	implementation('org.webjars:jquery:2.2.4')
+	implementation('org.webjars:bootstrap:4.3.1')
+	implementation('org.webjars:webjars-locator-core:0.35')
+	implementation('org.webjars:js-cookie:2.1.0')
+
 	testImplementation 'org.apache.httpcomponents:httpclient'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
