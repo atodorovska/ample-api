@@ -1,6 +1,5 @@
 package mk.ukim.finki.ampleapi.controller;
 
-import mk.ukim.finki.ampleapi.domain.User;
 import mk.ukim.finki.ampleapi.domain.dto.RegisterUserDto;
 import mk.ukim.finki.ampleapi.domain.exceptions.CreateUserException;
 import mk.ukim.finki.ampleapi.service.RegistrationService;
@@ -8,10 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/auth")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
@@ -36,17 +34,4 @@ public class RegistrationController {
         return ResponseEntity.ok().body("Successful activation");
     }
 
-    @GetMapping("/principal")
-    public Principal getPrincipal(Principal principal) {
-        return principal;
-    }
-
-
-    //remove this from here
-    @GetMapping
-    public ResponseEntity<User> getUserInfo(Principal principal) {
-        return this.registrationService.findByUsername(principal.getName())
-                .map(u -> ResponseEntity.ok().body(u))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
 }

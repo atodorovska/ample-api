@@ -89,9 +89,4 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.unconfirmedUserRepository.deleteAllByTimestampLessThan(yesterday);
     }
 
-    //remove this from here
-    @Override
-    public Optional<User> findByUsername(String username) {
-        return this.userRepository.findByUsername(username);
-    }
 }

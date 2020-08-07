@@ -109,8 +109,8 @@ public class ClothingItem {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", category='" + category + '\'' +
-                ", size='" + size + '\'' +
+                ", category=" + category +
+                ", size=" + size +
                 ", price=" + price +
                 ", photo='" + photo + '\'' +
                 ", taken=" + taken +

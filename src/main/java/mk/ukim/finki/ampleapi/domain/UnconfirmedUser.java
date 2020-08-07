@@ -91,6 +91,9 @@ public class UnconfirmedUser {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", activationCode='" + activationCode + '\'' +
+                ", role=" + role +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

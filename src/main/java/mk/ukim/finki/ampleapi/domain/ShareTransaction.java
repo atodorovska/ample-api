@@ -17,6 +17,8 @@ public class ShareTransaction {
 
     private ZonedDateTime delivery;
 
+    private String address;
+
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
@@ -25,10 +27,11 @@ public class ShareTransaction {
     public ShareTransaction() {
     }
 
-    public ShareTransaction(Long person, Long item, ZonedDateTime delivery, TransactionType type, Boolean success) {
+    public ShareTransaction(Long person, Long item, ZonedDateTime delivery, String address, TransactionType type, Boolean success) {
         this.person = person;
         this.item = item;
         this.delivery = delivery;
+        this.address = address;
         this.type = type;
         this.success = success;
     }
@@ -81,6 +84,14 @@ public class ShareTransaction {
         this.success = success;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     @Override
     public String toString() {
         return "ShareTransaction{" +
@@ -88,7 +99,8 @@ public class ShareTransaction {
                 ", person=" + person +
                 ", item=" + item +
                 ", delivery=" + delivery +
-                ", type='" + type + '\'' +
+                ", address='" + address + '\'' +
+                ", type=" + type +
                 ", success=" + success +
                 '}';
     }

@@ -12,7 +12,7 @@ public class EmailSenderRepository {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    private static final String ACTIVATION_URL = "Please click the following link to activate your account: http://localhost:8080/api/user/activate?username=%s&activationCode=%s";
+    private static final String ACTIVATION_URL = "Please click the following link to activate your account: http://localhost:8080/api/auth/activate?username=%s&activationCode=%s";
 
     @Async
     public void sendAccountActivationEmail(String to, String username, String activationCode) {

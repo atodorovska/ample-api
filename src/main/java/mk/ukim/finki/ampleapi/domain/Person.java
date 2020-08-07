@@ -52,7 +52,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "domain.Person{" +
+        return "Person{" +
                 "id=" + id +
                 ", points=" + points +
                 ", address='" + address + '\'' +
