@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class AuthenticationListener{
+public class AuthenticationListener { //implements AuthenticationSuccessHandler {
 
     private UserRepository userRepository;
     private PersonRepository personRepository;
@@ -24,6 +24,7 @@ public class AuthenticationListener{
         this.userRepository = userRepository;
         this.personRepository = personRepository;
     }
+
     @EventListener
     public void onAuthenticationSuccess(AuthenticationSuccessEvent authenticationSuccessEvent) {
         logger.info("User authenticated event caught");
@@ -32,13 +33,13 @@ public class AuthenticationListener{
             Map<String, String> details = (Map<String, String>) authentication.getUserAuthentication().getDetails();
 
             String username = details.get("name");
-            String uniqueAuthenticator = details.get("sub") != null ? details.get("sub") : details.get("id");
+            String auth_id = details.get("id") != null ? details.get("id") : details.get("sub");
 
-            if(!this.userRepository.existsByUniqueAuthenticator(uniqueAuthenticator)) {
+            if(!this.userRepository.existsByUsername(username) || !this.userRepository.existsByUniqueAuthenticator(auth_id)){
                 logger.info("Creating new user - OAuth2");
                 Person person = new Person(1000);
                 this.personRepository.save(person);
-                User user = new User(username, uniqueAuthenticator, person.getId());
+                User user = new User(username, auth_id, person.getId());
                 this.userRepository.save(user);
             }
         } catch (ClassCastException ex) {

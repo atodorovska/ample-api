@@ -4,6 +4,7 @@ import mk.ukim.finki.ampleapi.domain.User;
 import mk.ukim.finki.ampleapi.repository.jpa.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service

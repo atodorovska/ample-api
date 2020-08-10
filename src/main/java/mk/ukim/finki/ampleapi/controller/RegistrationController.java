@@ -6,7 +6,9 @@ import mk.ukim.finki.ampleapi.service.RegistrationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,10 +30,11 @@ public class RegistrationController {
     }
 
     @GetMapping("/activate")
-    public ResponseEntity activate (@RequestParam String username,
-                                    @RequestParam String activationCode) throws CreateUserException{
+    public void activate (@RequestParam String username,
+                                    @RequestParam String activationCode,
+                                    HttpServletResponse response) throws CreateUserException, IOException {
         this.registrationService.activateUser(username, activationCode);
-        return ResponseEntity.ok().body("Successful activation");
+        response.sendRedirect("http://localhost:3000");
     }
 
 }

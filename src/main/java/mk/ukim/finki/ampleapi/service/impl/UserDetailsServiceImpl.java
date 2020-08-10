@@ -1,6 +1,7 @@
 package mk.ukim.finki.ampleapi.service.impl;
 
 import mk.ukim.finki.ampleapi.repository.jpa.UnconfirmedUserRepository;
+import mk.ukim.finki.ampleapi.repository.jpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,15 +18,15 @@ import java.util.stream.Stream;
 @Primary
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UnconfirmedUserRepository unconfirmedUserRepository;
+    private UserRepository userRepository;
 
-    public UserDetailsServiceImpl(UnconfirmedUserRepository unconfirmedUserRepository){
-        this.unconfirmedUserRepository = unconfirmedUserRepository;
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.unconfirmedUserRepository.findByUsername(username)
+        return this.userRepository.findByUsername(username)
                 .map(u -> new User(
                         u.getUsername(),
                         u.getPassword(),

@@ -3,6 +3,7 @@ package mk.ukim.finki.ampleapi.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -33,11 +34,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CompositeFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.Filter;
 
@@ -47,6 +49,8 @@ import javax.servlet.Filter;
 @EnableOAuth2Client
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Value("${ample.client.domain}")
+    private String clientDomain;
 
     private UserDetailsService userDetailsService;
     private Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
@@ -61,6 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.applicationEventPublisher = applicationEventPublisher;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -91,18 +96,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/api/logout")
+                .logoutSuccessUrl(clientDomain)
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
-                .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                       "/api/user/active").hasAnyRole("USER", "ADMIN")
+                        "/api/user/active")
+                .hasAnyRole("USER", "ADMIN")
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        "/*").permitAll()
-                .and();
+                .antMatchers("/**")
+                .permitAll();
     }
 
     @Bean
@@ -132,6 +141,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         tokenServices.setRestTemplate(googleTemplate);
         googleFilter.setApplicationEventPublisher(applicationEventPublisher);
         googleFilter.setTokenServices(tokenServices);
+
+        googleFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
+            logger.info("login success");
+            response.sendRedirect(clientDomain);
+        });
+
         filters.add(googleFilter);
 
         OAuth2ClientAuthenticationProcessingFilter facebookFilter = new OAuth2ClientAuthenticationProcessingFilter("/api/login/facebook");
@@ -141,8 +156,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         tokenServices.setRestTemplate(facebookTemplate);
         facebookFilter.setApplicationEventPublisher(applicationEventPublisher);
         facebookFilter.setTokenServices(tokenServices);
-        filters.add(facebookFilter);
 
+        facebookFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
+            logger.info("login success");
+            response.sendRedirect(clientDomain);
+        });
+
+        filters.add(facebookFilter);
 
         filter.setFilters(filters);
 
@@ -181,5 +201,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         registration.setFilter(filter);
         registration.setOrder(-100);
         return registration;
+    }
+
+    @Bean
+    public FilterRegistrationBean processCorsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
+        source.registerCorsConfiguration("/**", corsConfiguration); // you restrict your path here
+
+        final FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+
+        return bean;
     }
 }
