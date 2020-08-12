@@ -29,6 +29,16 @@ public class ClothingItem {
     public ClothingItem() {
     }
 
+    public ClothingItem(String name, String description, ItemCategory category, ItemSize size, Integer price, String photo) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.size = size;
+        this.price = price;
+        this.taken = false;
+        this.photo = photo;
+    }
+
     public ClothingItem(String name, String description, ItemCategory category, ItemSize size, Integer price, String photo, Boolean taken) {
         this.name = name;
         this.description = description;

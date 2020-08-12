@@ -13,11 +13,11 @@ import java.security.Principal;
 @RequestMapping("/api/user")
 public class UserManagementController {
 
+    private final UserManagementService userManagementService;
+
     public UserManagementController(UserManagementService userManagementService) {
         this.userManagementService = userManagementService;
     }
-
-    private final UserManagementService userManagementService;
 
     @GetMapping("/active")
     public ResponseEntity<User> getUserInfo(Principal principal) {

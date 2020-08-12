@@ -30,9 +30,9 @@ public class RegistrationController {
     }
 
     @GetMapping("/activate")
-    public void activate (@RequestParam String username,
-                                    @RequestParam String activationCode,
-                                    HttpServletResponse response) throws CreateUserException, IOException {
+    public void activate(@RequestParam String username,
+                         @RequestParam String activationCode,
+                         HttpServletResponse response) throws CreateUserException, IOException {
         this.registrationService.activateUser(username, activationCode);
         response.sendRedirect("http://localhost:3000");
     }

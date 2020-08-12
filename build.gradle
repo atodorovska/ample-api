@@ -28,6 +28,8 @@ dependencies {
 	implementation "io.projectreactor.netty:reactor-netty:0.9.7.RELEASE"
 	implementation 'net.jcip:jcip-annotations:1.0'
 
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 	//remove later
 	implementation('org.webjars:jquery:2.2.4')
 	implementation('org.webjars:bootstrap:4.3.1')
