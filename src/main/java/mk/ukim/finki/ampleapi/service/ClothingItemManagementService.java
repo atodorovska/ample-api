@@ -9,4 +9,6 @@ public interface ClothingItemManagementService {
     Optional<List<ClothingItem>> latestClothingItems(Integer quantity);
 
     Optional<ClothingItem> shareClothingItem(ClothingItem item);
+
+    Optional<ClothingItem> findClothingItem(Long item);
 }

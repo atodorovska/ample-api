@@ -42,10 +42,15 @@ public class ClothingItemManagementController {
     }
 
     @PostMapping("/item/post")
-    public ResponseEntity<ClothingItem> addNewItem(@RequestBody ClothingItemDto item){
+    public ResponseEntity<ClothingItem> shareClothingItem(@RequestBody ClothingItemDto item){
         return clothingItemManagementService.shareClothingItem(
                 new ClothingItem(item.getName(), item.getDescription(), item.getCategory(), item.getSize(), item.getPrice(), item.getPhoto())
         ).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClothingItem> findClothingItem(@PathVariable Long id){
+        return clothingItemManagementService.findClothingItem(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/latest")

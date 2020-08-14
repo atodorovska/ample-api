@@ -24,4 +24,9 @@ public class BrandDiscountManagementServiceImpl implements BrandDiscountManageme
         Collections.reverse(list);
         return Optional.of(list.subList(0, quantity));
     }
+
+    @Override
+    public Optional<BrandDiscount> findClothingItem(Long id) {
+        return this.brandDiscountRepository.findById(id);
+    }
 }

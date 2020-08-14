@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface BrandDiscountManagementService {
     Optional<List<BrandDiscount>> latestDiscounts(Integer quantity);
+
+    Optional<BrandDiscount> findClothingItem(Long id);
 }

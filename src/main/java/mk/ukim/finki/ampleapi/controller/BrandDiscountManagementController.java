@@ -1,7 +1,6 @@
 package mk.ukim.finki.ampleapi.controller;
 
 import mk.ukim.finki.ampleapi.domain.BrandDiscount;
-import mk.ukim.finki.ampleapi.domain.ClothingItem;
 import mk.ukim.finki.ampleapi.service.BrandDiscountManagementService;
 import mk.ukim.finki.ampleapi.service.ImageStorageService;
 import org.springframework.core.io.Resource;
@@ -32,6 +31,12 @@ public class BrandDiscountManagementController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BrandDiscount> findClothingItem(@PathVariable Long id){
+        return brandDiscountManagementService.findClothingItem(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 
     @GetMapping("/latest")
     public ResponseEntity<List<BrandDiscount>> latestClothingItems() {

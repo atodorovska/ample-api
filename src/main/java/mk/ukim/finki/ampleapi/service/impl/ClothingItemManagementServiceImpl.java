@@ -27,7 +27,12 @@ public class ClothingItemManagementServiceImpl implements ClothingItemManagement
 
     @Override
     public Optional<ClothingItem> shareClothingItem(ClothingItem item) {
-        clothingItemRepository.save(item);
+        this.clothingItemRepository.save(item);
         return Optional.of(item);
+    }
+
+    @Override
+    public Optional<ClothingItem> findClothingItem(Long id) {
+        return this.clothingItemRepository.findById(id);
     }
 }
