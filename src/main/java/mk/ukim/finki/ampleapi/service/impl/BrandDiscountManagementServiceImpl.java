@@ -1,10 +1,8 @@
 package mk.ukim.finki.ampleapi.service.impl;
 
-import mk.ukim.finki.ampleapi.domain.BrandDiscount;
-import mk.ukim.finki.ampleapi.domain.DiscountTransaction;
-import mk.ukim.finki.ampleapi.domain.Person;
-import mk.ukim.finki.ampleapi.domain.User;
+import mk.ukim.finki.ampleapi.domain.*;
 import mk.ukim.finki.ampleapi.domain.dto.DiscountTransactionDto;
+import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
 import mk.ukim.finki.ampleapi.repository.jpa.BrandDiscountRepository;
 import mk.ukim.finki.ampleapi.repository.jpa.DiscountTransactionRepository;
 import mk.ukim.finki.ampleapi.repository.jpa.PersonRepository;
@@ -16,6 +14,7 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BrandDiscountManagementServiceImpl implements BrandDiscountManagementService {
@@ -67,7 +66,11 @@ public class BrandDiscountManagementServiceImpl implements BrandDiscountManageme
     }
 
     @Override
-    public Optional<List<BrandDiscount>> allDiscounts() {
-        return Optional.of(this.brandDiscountRepository.findAll());
+    public Optional<List<BrandDiscount>> allDiscounts(PaginationDto paginationDto) {
+        List<BrandDiscount> list = this.brandDiscountRepository.findAll().stream()
+                .skip((paginationDto.getCurrent()-1) * paginationDto.getItems())
+                .limit(paginationDto.getItems())
+                .collect(Collectors.toList());
+        return Optional.of(list);
     }
 }

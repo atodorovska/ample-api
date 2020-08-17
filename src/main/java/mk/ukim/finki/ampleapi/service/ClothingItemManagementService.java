@@ -2,6 +2,7 @@ package mk.ukim.finki.ampleapi.service;
 
 import mk.ukim.finki.ampleapi.domain.ClothingItem;
 import mk.ukim.finki.ampleapi.domain.dto.GetClothingItemDto;
+import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
 import mk.ukim.finki.ampleapi.domain.dto.ShareClothingItemDto;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface ClothingItemManagementService {
 
     void getClothingItem(GetClothingItemDto item);
 
-    Optional<List<ClothingItem>> allClothingItems();
+    Optional<List<ClothingItem>> allClothingItems(PaginationDto paginationDto);
 }

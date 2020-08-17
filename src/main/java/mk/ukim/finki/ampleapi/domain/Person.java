@@ -17,6 +17,9 @@ public class Person {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "survey_filled")
+    private Boolean surveyFilled;
+
     public Person() {
     }
 
@@ -67,6 +70,14 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
+    public Boolean getSurveyFilled() {
+        return surveyFilled;
+    }
+
+    public void setSurveyFilled(Boolean surveyFilled) {
+        this.surveyFilled = surveyFilled;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -74,6 +85,7 @@ public class Person {
                 ", points=" + points +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", surveyFilled=" + surveyFilled +
                 '}';
     }
 }

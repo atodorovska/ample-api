@@ -3,6 +3,7 @@ package mk.ukim.finki.ampleapi.service;
 import mk.ukim.finki.ampleapi.domain.BrandDiscount;
 import mk.ukim.finki.ampleapi.domain.DiscountTransaction;
 import mk.ukim.finki.ampleapi.domain.dto.DiscountTransactionDto;
+import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +17,5 @@ public interface BrandDiscountManagementService {
 
     Optional<String> createDiscountTransaction(DiscountTransactionDto discountTransactionDto);
 
-    Optional<List<BrandDiscount>> allDiscounts();
+    Optional<List<BrandDiscount>> allDiscounts(PaginationDto paginationDto);
 }

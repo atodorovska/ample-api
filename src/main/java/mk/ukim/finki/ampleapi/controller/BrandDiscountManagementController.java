@@ -1,8 +1,10 @@
 package mk.ukim.finki.ampleapi.controller;
 
 import mk.ukim.finki.ampleapi.domain.BrandDiscount;
+import mk.ukim.finki.ampleapi.domain.ClothingItem;
 import mk.ukim.finki.ampleapi.domain.DiscountTransaction;
 import mk.ukim.finki.ampleapi.domain.dto.DiscountTransactionDto;
+import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
 import mk.ukim.finki.ampleapi.service.BrandDiscountManagementService;
 import mk.ukim.finki.ampleapi.service.ImageStorageService;
 import org.springframework.core.io.Resource;
@@ -47,9 +49,9 @@ public class BrandDiscountManagementController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<BrandDiscount>> allDiscounts() {
-        return this.brandDiscountManagementService.allDiscounts().map(u -> ResponseEntity.ok().body(u))
+    @PostMapping("/all")
+    public ResponseEntity<List<BrandDiscount>> allDiscounts(@RequestBody PaginationDto paginationDto) {
+        return this.brandDiscountManagementService.allDiscounts(paginationDto).map(u -> ResponseEntity.ok().body(u))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -63,5 +65,4 @@ public class BrandDiscountManagementController {
         return brandDiscountManagementService.createDiscountTransaction(discountTransactionDto)
                 .map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
-
 }

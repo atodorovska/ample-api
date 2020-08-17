@@ -44,4 +44,17 @@ public class UserManagementServiceImpl implements mk.ukim.finki.ampleapi.service
             person.setPhoneNumber(editProfileDto.getNumber());
     }
 
+    @Override
+    @Transactional
+    public void addPointsForSurvey(String username) {
+        Long personId = this.userRepository.findByUsername(username).get().getPerson();
+        Person person = this.personRepository.findById(personId).get();
+
+        if(!person.getSurveyFilled()){
+            person.setPoints(person.getPoints() + 150);
+            person.setSurveyFilled(true);
+        }
+
+    }
+
 }

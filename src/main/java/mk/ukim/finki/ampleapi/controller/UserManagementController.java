@@ -31,4 +31,9 @@ public class UserManagementController {
     public void editProfile(@RequestBody EditProfileDto editProfileDto){
         this.userManagementService.editProfile(editProfileDto);
     }
+
+    @GetMapping("/add-points/{username}")
+    public void addPointsForSurvey(@PathVariable String username){
+        this.userManagementService.addPointsForSurvey(username);
+    }
 }

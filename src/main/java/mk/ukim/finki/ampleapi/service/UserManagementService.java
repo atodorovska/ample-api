@@ -10,4 +10,6 @@ public interface UserManagementService {
     Optional<ActiveUserDto> getAllUserInfo(String username);
 
     void editProfile(EditProfileDto editProfileDto);
+
+    void addPointsForSurvey(String username);
 }

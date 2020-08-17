@@ -2,6 +2,7 @@ package mk.ukim.finki.ampleapi.service.impl;
 
 import mk.ukim.finki.ampleapi.domain.*;
 import mk.ukim.finki.ampleapi.domain.dto.GetClothingItemDto;
+import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
 import mk.ukim.finki.ampleapi.domain.dto.ShareClothingItemDto;
 import mk.ukim.finki.ampleapi.repository.jpa.ClothingItemRepository;
 import mk.ukim.finki.ampleapi.repository.jpa.PersonRepository;
@@ -54,7 +55,7 @@ public class ClothingItemManagementServiceImpl implements ClothingItemManagement
         this.clothingItemRepository.save(clothingItem);
         this.shareTransactionRepository.save(new ShareTransaction(person.getId(), clothingItem.getId(),
                                 item.getDate(), item.getAddress(), TransactionType.GIVE, false));
-        person.setPoints(person.getPoints() + 200);
+        person.setPoints(person.getPoints() + 350);
     }
 
     @Override
@@ -73,8 +74,11 @@ public class ClothingItemManagementServiceImpl implements ClothingItemManagement
     }
 
     @Override
-    public Optional<List<ClothingItem>> allClothingItems() {
-        return Optional.of(this.clothingItemRepository.findAll().stream()
-                .filter(i -> !i.getTaken()).collect(Collectors.toList()));
+    public Optional<List<ClothingItem>> allClothingItems(PaginationDto paginationDto) {
+        List<ClothingItem> list = this.clothingItemRepository.findAll().stream()
+                .skip((paginationDto.getCurrent()-1) * paginationDto.getItems())
+                .limit(paginationDto.getItems())
+                .collect(Collectors.toList());
+        return Optional.of(list);
     }
 }
