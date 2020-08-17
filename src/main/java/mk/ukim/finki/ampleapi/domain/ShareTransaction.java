@@ -2,6 +2,7 @@ package mk.ukim.finki.ampleapi.domain;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "share_transaction")
@@ -15,7 +16,7 @@ public class ShareTransaction {
 
     private Long item;
 
-    private ZonedDateTime delivery;
+    private Date delivery;
 
     private String address;
 
@@ -27,7 +28,7 @@ public class ShareTransaction {
     public ShareTransaction() {
     }
 
-    public ShareTransaction(Long person, Long item, ZonedDateTime delivery, String address, TransactionType type, Boolean success) {
+    public ShareTransaction(Long person, Long item, Date delivery, String address, TransactionType type, Boolean success) {
         this.person = person;
         this.item = item;
         this.delivery = delivery;
@@ -60,11 +61,11 @@ public class ShareTransaction {
         this.item = item;
     }
 
-    public ZonedDateTime getDelivery() {
+    public Date getDelivery() {
         return delivery;
     }
 
-    public void setDelivery(ZonedDateTime delivery) {
+    public void setDelivery(Date delivery) {
         this.delivery = delivery;
     }
 

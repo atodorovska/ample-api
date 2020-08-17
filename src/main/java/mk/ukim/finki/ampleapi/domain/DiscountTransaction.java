@@ -1,8 +1,10 @@
 package mk.ukim.finki.ampleapi.domain;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "discount_transaction")
@@ -16,18 +18,18 @@ public class DiscountTransaction {
 
     private Long person;
 
-    private ZonedDateTime timestamp;
+    private LocalDateTime timestamp;
 
-    private Date validity;
+    private String code;
 
     public DiscountTransaction() {
     }
 
-    public DiscountTransaction(Long discount, Long person, ZonedDateTime timestamp, Date validity) {
+    public DiscountTransaction(Long discount, Long person) {
         this.discount = discount;
         this.person = person;
-        this.timestamp = timestamp;
-        this.validity = validity;
+        this.timestamp = LocalDateTime.now();
+        this.code = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -54,20 +56,20 @@ public class DiscountTransaction {
         this.person = person;
     }
 
-    public ZonedDateTime getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(ZonedDateTime timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Date getValidity() {
-        return validity;
+    public String getCode() {
+        return code;
     }
 
-    public void setValidity(Date validity) {
-        this.validity = validity;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -77,7 +79,6 @@ public class DiscountTransaction {
                 ", discount=" + discount +
                 ", person=" + person +
                 ", timestamp=" + timestamp +
-                ", validity=" + validity +
                 '}';
     }
 }

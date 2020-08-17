@@ -1,10 +1,13 @@
 package mk.ukim.finki.ampleapi.service;
 
-import mk.ukim.finki.ampleapi.domain.User;
+import mk.ukim.finki.ampleapi.domain.dto.ActiveUserDto;
+import mk.ukim.finki.ampleapi.domain.dto.EditProfileDto;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserManagementService {
-    Optional<User> findByUsername(String username);
+
+    Optional<ActiveUserDto> getAllUserInfo(String username);
+
+    void editProfile(EditProfileDto editProfileDto);
 }

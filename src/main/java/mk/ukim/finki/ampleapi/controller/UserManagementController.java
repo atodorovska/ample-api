@@ -1,11 +1,12 @@
 package mk.ukim.finki.ampleapi.controller;
 
+import mk.ukim.finki.ampleapi.domain.Person;
 import mk.ukim.finki.ampleapi.domain.User;
+import mk.ukim.finki.ampleapi.domain.dto.ActiveUserDto;
+import mk.ukim.finki.ampleapi.domain.dto.EditProfileDto;
 import mk.ukim.finki.ampleapi.service.UserManagementService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -20,9 +21,14 @@ public class UserManagementController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<User> getUserInfo(Principal principal) {
-        return this.userManagementService.findByUsername(principal.getName())
+    public ResponseEntity<ActiveUserDto> getAllUserInfo(Principal principal) {
+        return this.userManagementService.getAllUserInfo(principal.getName())
                 .map(u -> ResponseEntity.ok().body(u))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/edit")
+    public void editProfile(@RequestBody EditProfileDto editProfileDto){
+        this.userManagementService.editProfile(editProfileDto);
     }
 }

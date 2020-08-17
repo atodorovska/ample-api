@@ -1,13 +1,13 @@
 package mk.ukim.finki.ampleapi.controller;
 
 import mk.ukim.finki.ampleapi.domain.ClothingItem;
-import mk.ukim.finki.ampleapi.domain.dto.ClothingItemDto;
+import mk.ukim.finki.ampleapi.domain.dto.GetClothingItemDto;
+import mk.ukim.finki.ampleapi.domain.dto.ShareClothingItemDto;
 import mk.ukim.finki.ampleapi.domain.exceptions.StorageException;
 import mk.ukim.finki.ampleapi.service.ClothingItemManagementService;
 import mk.ukim.finki.ampleapi.service.ImageStorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,11 +41,14 @@ public class ClothingItemManagementController {
         imageStorageService.store(file);
     }
 
-    @PostMapping("/item/post")
-    public ResponseEntity<ClothingItem> shareClothingItem(@RequestBody ClothingItemDto item){
-        return clothingItemManagementService.shareClothingItem(
-                new ClothingItem(item.getName(), item.getDescription(), item.getCategory(), item.getSize(), item.getPrice(), item.getPhoto())
-        ).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
+    @PostMapping("/item/share")
+    public void shareClothingItem(@RequestBody ShareClothingItemDto item){
+        clothingItemManagementService.shareClothingItem(item);
+    }
+
+    @PostMapping("/item/get")
+    public void getClothingItem(@RequestBody GetClothingItemDto item){
+        clothingItemManagementService.getClothingItem(item);
     }
 
     @GetMapping("/{id}")
@@ -56,6 +59,12 @@ public class ClothingItemManagementController {
     @GetMapping("/latest")
     public ResponseEntity<List<ClothingItem>> latestClothingItems() {
         return this.clothingItemManagementService.latestClothingItems(12).map(u -> ResponseEntity.ok().body(u))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ClothingItem>> allClothingItems() {
+        return this.clothingItemManagementService.allClothingItems().map(u -> ResponseEntity.ok().body(u))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
