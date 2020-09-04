@@ -1,14 +1,30 @@
 package mk.ukim.finki.ampleapi.domain.dto;
 
-public class PaginationDto {
+import javax.lang.model.element.Name;
+
+public class DiscountsDto {
+
+    private String name;
 
     private Integer current;
 
     private Integer items;
 
-    public PaginationDto(Integer current, Integer items) {
+    public DiscountsDto() {
+    }
+
+    public DiscountsDto(String name, Integer current, Integer items) {
+        this.name = name;
         this.current = current;
         this.items = items;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getCurrent() {
@@ -29,8 +45,9 @@ public class PaginationDto {
 
     @Override
     public String toString() {
-        return "PaginationDto{" +
-                "current=" + current +
+        return "DiscountsDto{" +
+                "name=" + name +
+                ", current=" + current +
                 ", items=" + items +
                 '}';
     }

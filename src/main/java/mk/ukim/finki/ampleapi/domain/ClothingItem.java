@@ -1,10 +1,11 @@
 package mk.ukim.finki.ampleapi.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "clothing_item")
-public class ClothingItem {
+public class ClothingItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

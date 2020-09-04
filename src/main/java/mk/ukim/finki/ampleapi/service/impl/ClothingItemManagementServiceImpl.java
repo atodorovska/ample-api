@@ -1,13 +1,10 @@
 package mk.ukim.finki.ampleapi.service.impl;
 
 import mk.ukim.finki.ampleapi.domain.*;
+import mk.ukim.finki.ampleapi.domain.dto.ClothingItemsDto;
 import mk.ukim.finki.ampleapi.domain.dto.GetClothingItemDto;
-import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
 import mk.ukim.finki.ampleapi.domain.dto.ShareClothingItemDto;
-import mk.ukim.finki.ampleapi.repository.jpa.ClothingItemRepository;
-import mk.ukim.finki.ampleapi.repository.jpa.PersonRepository;
-import mk.ukim.finki.ampleapi.repository.jpa.ShareTransactionRepository;
-import mk.ukim.finki.ampleapi.repository.jpa.UserRepository;
+import mk.ukim.finki.ampleapi.repository.jpa.*;
 import mk.ukim.finki.ampleapi.service.ClothingItemManagementService;
 import org.springframework.stereotype.Service;
 
@@ -74,11 +71,27 @@ public class ClothingItemManagementServiceImpl implements ClothingItemManagement
     }
 
     @Override
-    public Optional<List<ClothingItem>> allClothingItems(PaginationDto paginationDto) {
-        List<ClothingItem> list = this.clothingItemRepository.findAll().stream()
-                .skip((paginationDto.getCurrent()-1) * paginationDto.getItems())
-                .limit(paginationDto.getItems())
+    public Optional<List<ClothingItem>> allClothingItems(ClothingItemsDto clothingItemsDto) {
+        List<ClothingItem> list;
+
+        if(!clothingItemsDto.getCategory().equals("") ||
+           !clothingItemsDto.getSize().equals("")){
+            if(clothingItemsDto.getCategory().equals(""))
+                list = this.clothingItemRepository.findClothingItemsBySize(ItemSize.valueOf(clothingItemsDto.getSize()));
+            else{
+                if(clothingItemsDto.getSize().equals(""))
+                    list = this.clothingItemRepository.findClothingItemsByCategory(ItemCategory.valueOf(clothingItemsDto.getCategory()));
+                else list = this.clothingItemRepository.
+                        findClothingItemsByCategoryAndSize(ItemCategory.valueOf(clothingItemsDto.getCategory()), ItemSize.valueOf(clothingItemsDto.getSize()));
+            }
+        }
+        else list = this.clothingItemRepository.findAll();
+
+        list = list.stream()
+                .skip((clothingItemsDto.getCurrent() - 1) * clothingItemsDto.getItems())
+                .limit(clothingItemsDto.getItems())
                 .collect(Collectors.toList());
+
         return Optional.of(list);
     }
 }

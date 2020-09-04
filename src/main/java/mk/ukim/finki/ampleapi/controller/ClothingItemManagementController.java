@@ -1,8 +1,8 @@
 package mk.ukim.finki.ampleapi.controller;
 
 import mk.ukim.finki.ampleapi.domain.ClothingItem;
+import mk.ukim.finki.ampleapi.domain.dto.ClothingItemsDto;
 import mk.ukim.finki.ampleapi.domain.dto.GetClothingItemDto;
-import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
 import mk.ukim.finki.ampleapi.domain.dto.ShareClothingItemDto;
 import mk.ukim.finki.ampleapi.domain.exceptions.StorageException;
 import mk.ukim.finki.ampleapi.service.ClothingItemManagementService;
@@ -64,8 +64,8 @@ public class ClothingItemManagementController {
     }
 
     @PostMapping("/all")
-    public ResponseEntity<List<ClothingItem>> allClothingItems(@RequestBody PaginationDto paginationDto) {
-        return this.clothingItemManagementService.allClothingItems(paginationDto).map(u -> ResponseEntity.ok().body(u))
+    public ResponseEntity<List<ClothingItem>> allClothingItems(@RequestBody ClothingItemsDto clothingItemFilterDto) {
+        return this.clothingItemManagementService.allClothingItems(clothingItemFilterDto).map(u -> ResponseEntity.ok().body(u))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

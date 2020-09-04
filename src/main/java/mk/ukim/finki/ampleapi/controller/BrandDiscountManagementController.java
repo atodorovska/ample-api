@@ -1,10 +1,8 @@
 package mk.ukim.finki.ampleapi.controller;
 
 import mk.ukim.finki.ampleapi.domain.BrandDiscount;
-import mk.ukim.finki.ampleapi.domain.ClothingItem;
-import mk.ukim.finki.ampleapi.domain.DiscountTransaction;
 import mk.ukim.finki.ampleapi.domain.dto.DiscountTransactionDto;
-import mk.ukim.finki.ampleapi.domain.dto.PaginationDto;
+import mk.ukim.finki.ampleapi.domain.dto.DiscountsDto;
 import mk.ukim.finki.ampleapi.service.BrandDiscountManagementService;
 import mk.ukim.finki.ampleapi.service.ImageStorageService;
 import org.springframework.core.io.Resource;
@@ -50,8 +48,8 @@ public class BrandDiscountManagementController {
     }
 
     @PostMapping("/all")
-    public ResponseEntity<List<BrandDiscount>> allDiscounts(@RequestBody PaginationDto paginationDto) {
-        return this.brandDiscountManagementService.allDiscounts(paginationDto).map(u -> ResponseEntity.ok().body(u))
+    public ResponseEntity<List<BrandDiscount>> allDiscounts(@RequestBody DiscountsDto discountsDto) {
+        return this.brandDiscountManagementService.allDiscounts(discountsDto).map(u -> ResponseEntity.ok().body(u))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
